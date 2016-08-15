@@ -8,65 +8,97 @@ using System.Threading.Tasks;
 
 namespace AdoNetHelper
 {
-    public class Database
+    public partial class Database
     {
         public string ConnectionString { get; private set; }
+        public SqlConnection Connention { get; private set; }
+        public SqlCommand Command { get; private set; }
 
 
         public Database(string _connectionString)
         {
             ConnectionString = _connectionString;
+            Connention = new SqlConnection(ConnectionString);
+            Command = Connention.CreateCommand();
         }
 
 
-        public int RunQuery(string query, params SqlParameter[] parameters)
+        private SqlParameter[] ProcessParameters(params ParamItem[] parameters)
         {
-            SqlConnection con = new SqlConnection(ConnectionString);
-            SqlCommand cmd = new SqlCommand(query, con);
+            SqlParameter[] pars = parameters.Select(x => new SqlParameter()
+            {
+                ParameterName = x.ParamName,
+                Value = x.ParamValue
+            }).ToArray();
+
+            return pars;
+        }
+
+
+        public virtual int RunQuery(string query, params ParamItem[] parameters)
+        {
+            Command.Parameters.Clear();
+            Command.CommandText = query;
+            Command.CommandType = CommandType.Text;
 
             if (parameters != null && parameters.Length > 0)
             {
-                cmd.Parameters.AddRange(parameters.ToArray());
+                Command.Parameters.AddRange(ProcessParameters(parameters));
             }
 
             int result = 0;
 
-            con.Open();
-            result = cmd.ExecuteNonQuery();
-            con.Close();
+            Connention.Open();
+            result = Command.ExecuteNonQuery();
+            Connention.Close();
 
             return result;
         }
 
-        public DataTable RunProc(string procName, params SqlParameter[] parameters)
+        public virtual int RunQuery<T>(string query, params ParamItem<T>[] parameters)
         {
-            SqlConnection con = new SqlConnection(ConnectionString);
-            SqlCommand cmd = new SqlCommand(procName, con);
-            cmd.CommandType = CommandType.StoredProcedure;
+            return RunQuery(query, parameters);
+        }
+
+
+
+        public virtual DataTable RunProc(string procName, params ParamItem[] parameters)
+        {
+            Command.Parameters.Clear();
+            Command.CommandText = procName;
+            Command.CommandType = CommandType.StoredProcedure;
 
             if (parameters != null && parameters.Length > 0)
             {
-                cmd.Parameters.AddRange(parameters.ToArray());
+                Command.Parameters.AddRange(ProcessParameters(parameters));
             }
 
             DataTable dt = new DataTable();
-            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            SqlDataAdapter adapter = new SqlDataAdapter(Command);
             adapter.Fill(dt);
 
             return dt;
         }
 
-        public DataTable GetTable(string query, params SqlParameter[] parameters)
+        public virtual DataTable RunProc<T>(string procName, params ParamItem<T>[] parameters)
         {
-            SqlConnection con = new SqlConnection(ConnectionString);
-            SqlCommand cmd = new SqlCommand(query, con);
+            return RunProc(procName, parameters);
+        }
+
+
+
+        public virtual DataTable GetTable(string query, params ParamItem[] parameters)
+        {
+            Command.Parameters.Clear();
+            Command.CommandText = query;
+            Command.CommandType = CommandType.Text;
 
             if (parameters != null && parameters.Length > 0)
             {
-                cmd.Parameters.AddRange(parameters.ToArray());
+                Command.Parameters.AddRange(ProcessParameters(parameters));
             }
 
-            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            SqlDataAdapter da = new SqlDataAdapter(Command);
 
             // Adaptor : otomatik bağlantı açar. Verileri çeker(sorguyu çalıştırır) ve bir datatable 'a doldurur ve bağlantıyı otomatik kapatır.
 
@@ -74,6 +106,11 @@ namespace AdoNetHelper
             da.Fill(dt);
 
             return dt;
+        }
+
+        public virtual DataTable GetTable<T>(string query, params ParamItem<T>[] parameters)
+        {
+            return GetTable(query, parameters);
         }
 
     }

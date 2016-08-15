@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="Abstract\IDbOperations.cs" />
     <Compile Include="Database.cs" />
+    <Compile Include="ParamItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
