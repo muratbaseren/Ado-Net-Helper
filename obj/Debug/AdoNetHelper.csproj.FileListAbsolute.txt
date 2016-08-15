@@ -1,0 +1,5 @@
+c:\Users\SC501\Documents\Visual Studio 2015\Projects\ADONET_ToDoList\AdoNetHelper\bin\Debug\AdoNetHelper.dll
+c:\Users\SC501\Documents\Visual Studio 2015\Projects\ADONET_ToDoList\AdoNetHelper\bin\Debug\AdoNetHelper.pdb
+c:\Users\SC501\Documents\Visual Studio 2015\Projects\ADONET_ToDoList\AdoNetHelper\obj\Debug\AdoNetHelper.dll
+c:\Users\SC501\Documents\Visual Studio 2015\Projects\ADONET_ToDoList\AdoNetHelper\obj\Debug\AdoNetHelper.pdb
+C:\Users\SC501\Documents\Visual Studio 2015\Projects\ADONET_ToDoList\AdoNetHelper\obj\Debug\AdoNetHelper.csprojResolveAssemblyReference.cache
