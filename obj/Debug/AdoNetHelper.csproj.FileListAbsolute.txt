@@ -5,6 +5,5 @@ c:\Users\SC501\Documents\Visual Studio 2015\Projects\ADONET_ToDoList\AdoNetHelpe
 C:\Users\SC501\Documents\Visual Studio 2015\Projects\ADONET_ToDoList\AdoNetHelper\obj\Debug\AdoNetHelper.csprojResolveAssemblyReference.cache
 C:\Users\SC501\Documents\GitHub\Ado-Net-Helper\bin\Debug\AdoNetHelper.dll
 C:\Users\SC501\Documents\GitHub\Ado-Net-Helper\bin\Debug\AdoNetHelper.pdb
-C:\Users\SC501\Documents\GitHub\Ado-Net-Helper\obj\Debug\AdoNetHelper.csprojResolveAssemblyReference.cache
 C:\Users\SC501\Documents\GitHub\Ado-Net-Helper\obj\Debug\AdoNetHelper.dll
 C:\Users\SC501\Documents\GitHub\Ado-Net-Helper\obj\Debug\AdoNetHelper.pdb
