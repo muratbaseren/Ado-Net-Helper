@@ -40,33 +40,37 @@ Debug.WriteLine("Result table row count(RunQuery - GetTable) : " + dt.Rows.Count
 ```
 
 ### How to use RunProc method
-```c#
-// Add MyStoredProc1 and MyStoredProc2 sample procedures..
 
-/* Sample Procedures DDLs
+#### Create sample stored procedures
+
+```sql
+-- Add MyStoredProc1 and MyStoredProc2 sample procedures..
+-- Sample Procedures DDLs
  
-    CREATE PROCEDURE MyStoredProc1
-      @MinPrice decimal(18,2),
-      @MaxPrice decimal(18,2)
-    AS
-    BEGIN
-      SELECT [Id], [Name], [Author], [Description], [Price] 
-      FROM Books
-      WHERE Price > @MinPrice AND Price < @MaxPrice
-    END
-    GO
+CREATE PROCEDURE MyStoredProc1
+  @MinPrice decimal(18,2),
+  @MaxPrice decimal(18,2)
+AS
+BEGIN
+  SELECT [Id], [Name], [Author], [Description], [Price] 
+  FROM Books
+  WHERE Price > @MinPrice AND Price < @MaxPrice
+END
+GO
 
-    CREATE PROCEDURE MyStoredProc2
-      @NewPrice decimal(18,2)
-    AS
-    BEGIN
-      UPDATE Books SET Price = @NewPrice
-      WHERE Author LIKE '%Charles%'
-    END
-    GO
+CREATE PROCEDURE MyStoredProc2
+  @NewPrice decimal(18,2)
+AS
+BEGIN
+  UPDATE Books SET Price = @NewPrice
+  WHERE Author LIKE '%Charles%'
+END
+GO
+    
+```
 
- */
-
+#### Using RunProc method
+```c#
 // After...
 
 // Get Table..
