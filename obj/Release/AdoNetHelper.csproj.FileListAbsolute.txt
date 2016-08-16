@@ -2,3 +2,4 @@ C:\Users\SC501\Documents\GitHub\Ado-Net-Helper\bin\Release\AdoNetHelper.dll
 C:\Users\SC501\Documents\GitHub\Ado-Net-Helper\bin\Release\AdoNetHelper.pdb
 C:\Users\SC501\Documents\GitHub\Ado-Net-Helper\obj\Release\AdoNetHelper.dll
 C:\Users\SC501\Documents\GitHub\Ado-Net-Helper\obj\Release\AdoNetHelper.pdb
+C:\Users\SC501\Documents\GitHub\Ado-Net-Helper\obj\Release\AdoNetHelper.csprojResolveAssemblyReference.cache

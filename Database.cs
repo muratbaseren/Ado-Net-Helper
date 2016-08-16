@@ -55,12 +55,6 @@ namespace AdoNetHelper
             return result;
         }
 
-        public virtual int RunQuery<T>(string query, params ParamItem<T>[] parameters)
-        {
-            return RunQuery(query, parameters);
-        }
-
-
 
         public virtual DataTable RunProc(string procName, params ParamItem[] parameters)
         {
@@ -79,12 +73,6 @@ namespace AdoNetHelper
 
             return dt;
         }
-
-        public virtual DataTable RunProc<T>(string procName, params ParamItem<T>[] parameters)
-        {
-            return RunProc(procName, parameters);
-        }
-
 
 
         public virtual DataTable GetTable(string query, params ParamItem[] parameters)
@@ -107,11 +95,5 @@ namespace AdoNetHelper
 
             return dt;
         }
-
-        public virtual DataTable GetTable<T>(string query, params ParamItem<T>[] parameters)
-        {
-            return GetTable(query, parameters);
-        }
-
     }
 }
