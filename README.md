@@ -8,7 +8,7 @@ SQL Sorgularını çalıştırabileceğiniz ve sonuçlarını listeleyebileceği
 ### Creating Database Object
 ```c#
 // Create instance for Database object.
-DB = new Database(ConnectionString);
+Database DB = new Database(ConnectionString);
 ```
 
 ### How to use RunQuery method
