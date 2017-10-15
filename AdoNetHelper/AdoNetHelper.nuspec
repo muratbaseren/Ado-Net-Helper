@@ -8,7 +8,7 @@
     <owners>Kadir Murat Başeren</owners>
     <projectUrl>https://github.com/kadirmuratbaseren/Ado-Net-Helper</projectUrl>
     <description>This package includes dynamic link library(dll) for ado.net operations on your project. It provides executing query, get table data and executing stored procedure query.</description>
-    <summary>This package includes dynamic link library(dll) for ado.net operations on your project. It provides executing query, get table data and executing stored procedure query.</summary>
+    <summary>This package includes dynamic link library(dll) for ado.net operations on your project. It provides executing query, get table data and executing stored procedure query..</summary>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <tags>adonet,helper,execute query,execute stored procedure,mssql</tags>
     <copyright>Copyright 2017 Kadir Murat Başeren</copyright>
