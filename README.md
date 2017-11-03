@@ -3,6 +3,10 @@ SQL Sorgularını çalıştırabileceğiniz ve sonuçlarını listeleyebileceği
 
 [Sample Project(örnek proje)](https://github.com/kadirmuratbaseren/Using-Ado-Net-Helper)
 
+| Build server| Platform       | Status      |
+|-------------|----------------|-------------|
+| AppVeyor    | Windows        |[![Build status](https://ci.appveyor.com/api/projects/status/aw4iajsf45eyl6g0/branch/master?svg=true)](https://ci.appveyor.com/project/muratbaseren/ado-net-helper/branch/master) |
+
 ## Code-Samples
 
 ### Creating Database Object
