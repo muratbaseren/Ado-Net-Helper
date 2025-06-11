@@ -17,7 +17,7 @@ namespace AdoNetHelper
 
         public SuperHelper(string connectionString)
         {
-            if(connectionString == null || string.IsNullOrEmpty(connectionString.Trim()) == true)
+            if (connectionString == null || string.IsNullOrEmpty(connectionString.Trim()) == true)
             {
                 throw new Exception("ConnectionString can not be empty.");
             }
