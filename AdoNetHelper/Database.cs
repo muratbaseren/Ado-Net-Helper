@@ -95,5 +95,71 @@ namespace AdoNetHelper
 
             return dt;
         }
+
+        public virtual async Task<int> RunQueryAsync(string query, params ParamItem[] parameters)
+        {
+            Command.Parameters.Clear();
+            Command.CommandText = query;
+            Command.CommandType = CommandType.Text;
+
+            if (parameters != null && parameters.Length > 0)
+            {
+                Command.Parameters.AddRange(ProcessParameters(parameters));
+            }
+
+            int result = 0;
+
+            await Connention.OpenAsync();
+            result = await Command.ExecuteNonQueryAsync();
+            Connention.Close();
+
+            return result;
+        }
+
+        public virtual async Task<DataTable> RunProcAsync(string procName, params ParamItem[] parameters)
+        {
+            Command.Parameters.Clear();
+            Command.CommandText = procName;
+            Command.CommandType = CommandType.StoredProcedure;
+
+            if (parameters != null && parameters.Length > 0)
+            {
+                Command.Parameters.AddRange(ProcessParameters(parameters));
+            }
+
+            DataTable dt = new DataTable();
+
+            await Connention.OpenAsync();
+            using (var reader = await Command.ExecuteReaderAsync())
+            {
+                dt.Load(reader);
+            }
+            Connention.Close();
+
+            return dt;
+        }
+
+        public virtual async Task<DataTable> GetTableAsync(string query, params ParamItem[] parameters)
+        {
+            Command.Parameters.Clear();
+            Command.CommandText = query;
+            Command.CommandType = CommandType.Text;
+
+            if (parameters != null && parameters.Length > 0)
+            {
+                Command.Parameters.AddRange(ProcessParameters(parameters));
+            }
+
+            DataTable dt = new DataTable();
+
+            await Connention.OpenAsync();
+            using (var reader = await Command.ExecuteReaderAsync())
+            {
+                dt.Load(reader);
+            }
+            Connention.Close();
+
+            return dt;
+        }
     }
 }
