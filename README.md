@@ -125,6 +125,10 @@ DataTable asyncFnTable = await DB.RunFunctionAsync("dbo.GetBooksByPrice",
 Export exporter = new Export();
 byte[] pdfBytes = await exporter.ToPdfAsync(dt);
 File.WriteAllBytes(@"C:\\temp\\table.pdf", pdfBytes);
+
+// DataTable verisini HTML dosyasına dönüştürme
+byte[] htmlBytes = await exporter.ToHtmlAsync(dt);
+File.WriteAllBytes(@"C:\\temp\\table.html", htmlBytes);
 ```
 
 ### Backup ve Restore metodları
@@ -134,4 +138,13 @@ DB.Backup("BookDb", @"C:\\temp\\BookDb.bak");
 
 // Yedekten veritabanını geri yükleme
 DB.Restore("BookDb", @"C:\\temp\\BookDb.bak");
+```
+
+### Tablo klonlama metodları
+```c#
+// Yapı kopyası oluşturma (veri olmadan)
+await DB.CloneTableStructureAsync("Books", "BooksCopy");
+
+// Yapı ve verilerle beraber kopya oluşturma
+await DB.CloneTableWithDataAsync("Books", "BooksCopyWithData");
 ```

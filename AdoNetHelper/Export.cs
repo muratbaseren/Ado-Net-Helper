@@ -13,7 +13,11 @@ namespace AdoNetHelper
     /// </summary>
     public class Export : IExport
     {
-        /// <inheritdoc />
+        /// <summary>
+        /// Converts the supplied <see cref="DataTable"/> to a PDF document.
+        /// </summary>
+        /// <param name="table">Table containing data to be converted.</param>
+        /// <returns>Byte array of the generated PDF file.</returns>
         public async Task<byte[]> ToPdfAsync(DataTable table)
         {
             if (table == null)
@@ -49,6 +53,48 @@ namespace AdoNetHelper
                 writer.Close();
 
                 return await Task.FromResult(memoryStream.ToArray());
+            }
+        }
+
+        /// <summary>
+        /// Converts the supplied <see cref="DataTable"/> to an HTML document.
+        /// </summary>
+        /// <param name="table">Table containing data to be converted.</param>
+        /// <returns>Byte array of the generated HTML file.</returns>
+        public async Task<byte[]> ToHtmlAsync(DataTable table)
+        {
+            if (table == null)
+            {
+                throw new ArgumentNullException(nameof(table));
+            }
+
+            using (var memoryStream = new MemoryStream())
+            using (var writer = new StreamWriter(memoryStream))
+            {
+                await writer.WriteLineAsync("<html><body><table>");
+
+                // Header
+                await writer.WriteAsync("<tr>");
+                foreach (DataColumn column in table.Columns)
+                {
+                    await writer.WriteAsync($"<th>{column.ColumnName}</th>");
+                }
+                await writer.WriteLineAsync("</tr>");
+
+                // Rows
+                foreach (DataRow row in table.Rows)
+                {
+                    await writer.WriteAsync("<tr>");
+                    foreach (var item in row.ItemArray)
+                    {
+                        await writer.WriteAsync($"<td>{item}</td>");
+                    }
+                    await writer.WriteLineAsync("</tr>");
+                }
+
+                await writer.WriteLineAsync("</table></body></html>");
+                await writer.FlushAsync();
+                return memoryStream.ToArray();
             }
         }
     }
