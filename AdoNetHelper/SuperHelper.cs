@@ -133,6 +133,15 @@ namespace AdoNetHelper
             return result;
         }
 
+        /// <summary>
+        /// Asynchronously creates and executes an Insert, Update, Delete or Select command.
+        /// </summary>
+        /// <param name="queryType">Query type.</param>
+        /// <param name="tableName">Table name.</param>
+        /// <param name="columns">Column names.</param>
+        /// <param name="parameters">Parameter values.</param>
+        /// <param name="whereParameters">Parameters for WHERE clause.</param>
+        /// <returns>Result object which can be affected row count or <see cref="DataTable"/>.</returns>
         public async Task<object> CreateAndRunQueryAsync(QueryType queryType, string tableName, string[] columns, object[] parameters, params KeyValuePair<string, object>[] whereParameters)
         {
             SqlConnection baglanti = new SqlConnection(ConnectionString);
@@ -234,11 +243,18 @@ namespace AdoNetHelper
         }
     }
 
+    /// <summary>
+    /// Query type enumeration used by <see cref="SuperHelper"/>.
+    /// </summary>
     public enum QueryType
     {
+        /// <summary>Insert query.</summary>
         Insert = 0,
+        /// <summary>Update query.</summary>
         Update = 1,
+        /// <summary>Delete query.</summary>
         Delete = 2,
+        /// <summary>Select query.</summary>
         Select = 3
     }
 }

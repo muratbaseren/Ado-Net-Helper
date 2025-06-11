@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 namespace AdoNetHelper.Abstract
 {
     /// <summary>
-    /// Defines PDF export functionality.
+    /// Defines export functionality.
     /// </summary>
     public interface IExport
     {
@@ -14,5 +14,12 @@ namespace AdoNetHelper.Abstract
         /// <param name="table">Table containing data to be converted.</param>
         /// <returns>Byte array of the generated PDF file.</returns>
         Task<byte[]> ToPdfAsync(DataTable table);
+
+        /// <summary>
+        /// Converts the supplied <see cref="DataTable"/> to an HTML document.
+        /// </summary>
+        /// <param name="table">Table containing data to be converted.</param>
+        /// <returns>Byte array of the generated HTML file.</returns>
+        Task<byte[]> ToHtmlAsync(DataTable table);
     }
 }
