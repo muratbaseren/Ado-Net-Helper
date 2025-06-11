@@ -8,15 +8,15 @@ namespace AdoNetHelper
     public partial class Database
     {
         public string ConnectionString { get; private set; }
-        public SqlConnection Connention { get; private set; }
+        public SqlConnection Connection { get; private set; }
         public SqlCommand Command { get; private set; }
 
 
         public Database(string _connectionString)
         {
             ConnectionString = _connectionString;
-            Connention = new SqlConnection(ConnectionString);
-            Command = Connention.CreateCommand();
+            Connection = new SqlConnection(ConnectionString);
+            Command = Connection.CreateCommand();
         }
 
 
@@ -45,9 +45,9 @@ namespace AdoNetHelper
 
             int result = 0;
 
-            Connention.Open();
+            Connection.Open();
             result = Command.ExecuteNonQuery();
-            Connention.Close();
+            Connection.Close();
 
             return result;
         }
@@ -106,9 +106,9 @@ namespace AdoNetHelper
 
             int result = 0;
 
-            await Connention.OpenAsync();
+            await Connection.OpenAsync();
             result = await Command.ExecuteNonQueryAsync();
-            Connention.Close();
+            Connection.Close();
 
             return result;
         }
@@ -126,12 +126,12 @@ namespace AdoNetHelper
 
             DataTable dt = new DataTable();
 
-            await Connention.OpenAsync();
+            await Connection.OpenAsync();
             using (var reader = await Command.ExecuteReaderAsync())
             {
                 dt.Load(reader);
             }
-            Connention.Close();
+            Connection.Close();
 
             return dt;
         }
@@ -149,12 +149,12 @@ namespace AdoNetHelper
 
             DataTable dt = new DataTable();
 
-            await Connention.OpenAsync();
+            await Connection.OpenAsync();
             using (var reader = await Command.ExecuteReaderAsync())
             {
                 dt.Load(reader);
             }
-            Connention.Close();
+            Connection.Close();
 
             return dt;
         }
