@@ -2,6 +2,7 @@
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
+using System;
 
 namespace AdoNetHelper
 {
@@ -129,6 +130,60 @@ namespace AdoNetHelper
             da.Fill(dt);
 
             return dt;
+        }
+
+        /// <summary>
+        /// Creates a backup file for the specified database.
+        /// </summary>
+        /// <param name="databaseName">Name of the database to backup.</param>
+        /// <param name="filePath">Full path of the backup file.</param>
+        public virtual void Backup(string databaseName, string filePath)
+        {
+            if (string.IsNullOrWhiteSpace(databaseName))
+            {
+                throw new ArgumentNullException(nameof(databaseName));
+            }
+
+            if (string.IsNullOrWhiteSpace(filePath))
+            {
+                throw new ArgumentNullException(nameof(filePath));
+            }
+
+            Command.Parameters.Clear();
+            Command.CommandText = $"BACKUP DATABASE [{databaseName}] TO DISK = @filePath";
+            Command.CommandType = CommandType.Text;
+            Command.Parameters.AddWithValue("@filePath", filePath);
+
+            Connection.Open();
+            Command.ExecuteNonQuery();
+            Connection.Close();
+        }
+
+        /// <summary>
+        /// Restores the specified database from a backup file.
+        /// </summary>
+        /// <param name="databaseName">Name of the database to restore.</param>
+        /// <param name="filePath">Path of the backup file.</param>
+        public virtual void Restore(string databaseName, string filePath)
+        {
+            if (string.IsNullOrWhiteSpace(databaseName))
+            {
+                throw new ArgumentNullException(nameof(databaseName));
+            }
+
+            if (string.IsNullOrWhiteSpace(filePath))
+            {
+                throw new ArgumentNullException(nameof(filePath));
+            }
+
+            Command.Parameters.Clear();
+            Command.CommandText = $"RESTORE DATABASE [{databaseName}] FROM DISK = @filePath WITH REPLACE";
+            Command.CommandType = CommandType.Text;
+            Command.Parameters.AddWithValue("@filePath", filePath);
+
+            Connection.Open();
+            Command.ExecuteNonQuery();
+            Connection.Close();
         }
 
         public virtual async Task<int> RunQueryAsync(string query, params ParamItem[] parameters)

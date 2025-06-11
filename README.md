@@ -118,3 +118,20 @@ DataTable asyncFnTable = await DB.RunFunctionAsync("dbo.GetBooksByPrice",
     new ParamItem() { ParamName = "@MinPrice", ParamValue = 10m },
     new ParamItem() { ParamName = "@MaxPrice", ParamValue = 20m });
 ```
+
+### Export sınıfı kullanımı
+```c#
+// DataTable verisini PDF dosyasına dönüştürme
+Export exporter = new Export();
+byte[] pdfBytes = await exporter.ToPdfAsync(dt);
+File.WriteAllBytes(@"C:\\temp\\table.pdf", pdfBytes);
+```
+
+### Backup ve Restore metodları
+```c#
+// Veritabanı yedeği oluşturma
+DB.Backup("BookDb", @"C:\\temp\\BookDb.bak");
+
+// Yedekten veritabanını geri yükleme
+DB.Restore("BookDb", @"C:\\temp\\BookDb.bak");
+```
