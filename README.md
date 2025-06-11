@@ -105,3 +105,16 @@ DataTable asyncTable = await DB.GetTableAsync(
     "SELECT Id, Name, Author, Description, Price FROM Books WHERE Price > @PriceVal",
     new ParamItem() { ParamName = "@PriceVal", ParamValue = 25m });
 ```
+
+### RunFunction usage
+```c#
+// Example of calling a SQL function that returns table
+DataTable fnTable = DB.RunFunction("dbo.GetBooksByPrice",
+    new ParamItem() { ParamName = "@MinPrice", ParamValue = 10m },
+    new ParamItem() { ParamName = "@MaxPrice", ParamValue = 20m });
+
+// Async version
+DataTable asyncFnTable = await DB.RunFunctionAsync("dbo.GetBooksByPrice",
+    new ParamItem() { ParamName = "@MinPrice", ParamValue = 10m },
+    new ParamItem() { ParamName = "@MaxPrice", ParamValue = 20m });
+```

@@ -19,6 +19,21 @@ namespace AdoNetHelper
             Command = Connection.CreateCommand();
         }
 
+        public Database(string server, string database, string userId, string password)
+        {
+            SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder
+            {
+                DataSource = server,
+                InitialCatalog = database,
+                UserID = userId,
+                Password = password
+            };
+
+            ConnectionString = builder.ConnectionString;
+            Connection = new SqlConnection(ConnectionString);
+            Command = Connection.CreateCommand();
+        }
+
 
         private SqlParameter[] ProcessParameters(params ParamItem[] parameters)
         {
@@ -58,6 +73,29 @@ namespace AdoNetHelper
             Command.Parameters.Clear();
             Command.CommandText = procName;
             Command.CommandType = CommandType.StoredProcedure;
+
+            if (parameters != null && parameters.Length > 0)
+            {
+                Command.Parameters.AddRange(ProcessParameters(parameters));
+            }
+
+            DataTable dt = new DataTable();
+            SqlDataAdapter adapter = new SqlDataAdapter(Command);
+            adapter.Fill(dt);
+
+            return dt;
+        }
+
+        public virtual DataTable RunFunction(string functionName, params ParamItem[] parameters)
+        {
+            Command.Parameters.Clear();
+
+            string[] paramNames = parameters != null && parameters.Length > 0
+                ? parameters.Select(x => x.ParamName).ToArray()
+                : new string[0];
+
+            Command.CommandText = $"SELECT * FROM {functionName}({string.Join(",", paramNames)})";
+            Command.CommandType = CommandType.Text;
 
             if (parameters != null && parameters.Length > 0)
             {
@@ -118,6 +156,34 @@ namespace AdoNetHelper
             Command.Parameters.Clear();
             Command.CommandText = procName;
             Command.CommandType = CommandType.StoredProcedure;
+
+            if (parameters != null && parameters.Length > 0)
+            {
+                Command.Parameters.AddRange(ProcessParameters(parameters));
+            }
+
+            DataTable dt = new DataTable();
+
+            await Connection.OpenAsync();
+            using (var reader = await Command.ExecuteReaderAsync())
+            {
+                dt.Load(reader);
+            }
+            Connection.Close();
+
+            return dt;
+        }
+
+        public virtual async Task<DataTable> RunFunctionAsync(string functionName, params ParamItem[] parameters)
+        {
+            Command.Parameters.Clear();
+
+            string[] paramNames = parameters != null && parameters.Length > 0
+                ? parameters.Select(x => x.ParamName).ToArray()
+                : new string[0];
+
+            Command.CommandText = $"SELECT * FROM {functionName}({string.Join(",", paramNames)})";
+            Command.CommandType = CommandType.Text;
 
             if (parameters != null && parameters.Length > 0)
             {
