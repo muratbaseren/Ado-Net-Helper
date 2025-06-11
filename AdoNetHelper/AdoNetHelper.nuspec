@@ -11,8 +11,10 @@
     <description>This package includes dynamic link library(dll) for ado.net operations on your project. It provides executing query, get table data and executing stored procedure query.</description>
     <summary>This package includes dynamic link library(dll) for ado.net operations on your project. It provides executing query, get table data and executing stored procedure query..</summary>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
+	<license type="expression">GPL-3.0-only</license>
     <tags>adonet,helper,execute query,execute stored procedure,mssql</tags>
     <copyright>Copyright Kadir Murat Başeren</copyright>
+	<readme>README.md</readme>
     <frameworkAssemblies>
       <frameworkAssembly assemblyName="System.Data" targetFramework="" />
     </frameworkAssemblies>
