@@ -90,3 +90,18 @@ Debug.WriteLine("Result table row count(RunProc - MyStoredProc1) : " + dt.Rows.C
 DB.RunProc("MyStoredProc2",
     new ParamItem() { ParamName = "@NewPrice", ParamValue = 29m });
 ```
+
+### Async usage
+```c#
+// Example of using async methods
+int affectedRows = await DB.RunQueryAsync(
+    "INSERT INTO Books(Name, Author, Description, Price) VALUES(@Name, @Author, @Desc, @Price)",
+    new ParamItem() { ParamName = "@Name", ParamValue = "Jungle Book" },
+    new ParamItem() { ParamName = "@Author", ParamValue = "K. Murat Başeren" },
+    new ParamItem() { ParamName = "@Desc", ParamValue = "About book subject" },
+    new ParamItem() { ParamName = "@Price", ParamValue = 25 });
+
+DataTable asyncTable = await DB.GetTableAsync(
+    "SELECT Id, Name, Author, Description, Price FROM Books WHERE Price > @PriceVal",
+    new ParamItem() { ParamName = "@PriceVal", ParamValue = 25m });
+```
