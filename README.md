@@ -43,6 +43,15 @@ DataTable dt =
 Debug.WriteLine("Result table row count(RunQuery - GetTable) : " + dt.Rows.Count);
 ```
 
+### How to use RunScalar method
+```c#
+// Execute scalar query and convert result
+int bookCount = DB.RunScalar<int>("SELECT COUNT(*) FROM Books");
+
+// Execute scalar query async and convert result
+int bookCount = await DB.RunScalarAsync<int>("SELECT COUNT(*) FROM Books");
+```
+
 ### How to use RunProc method
 
 #### Create sample stored procedures
@@ -129,6 +138,10 @@ File.WriteAllBytes(@"C:\\temp\\table.pdf", pdfBytes);
 // DataTable verisini HTML dosyasına dönüştürme
 byte[] htmlBytes = await exporter.ToHtmlAsync(dt);
 File.WriteAllBytes(@"C:\\temp\\table.html", htmlBytes);
+
+// DataTable verisini CSV dosyasına dönüştürme
+byte[] csvBytes = await exporter.ToCsvAsync(dt);
+File.WriteAllBytes(@"C:\\temp\\table.csv", csvBytes);
 ```
 
 ### Backup ve Restore metodları
@@ -138,6 +151,10 @@ DB.Backup("BookDb", @"C:\\temp\\BookDb.bak");
 
 // Yedekten veritabanını geri yükleme
 DB.Restore("BookDb", @"C:\\temp\\BookDb.bak");
+
+// Async kullanımı
+await DB.BackupAsync("BookDb", @"C:\\temp\\BookDb.bak");
+await DB.RestoreAsync("BookDb", @"C:\\temp\\BookDb.bak");
 ```
 
 ### Tablo klonlama metodları

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using AdoNetHelper.Abstract;
+using System.Linq;
 
 namespace AdoNetHelper
 {
@@ -93,6 +94,50 @@ namespace AdoNetHelper
                 }
 
                 await writer.WriteLineAsync("</table></body></html>");
+                await writer.FlushAsync();
+                return memoryStream.ToArray();
+            }
+        }
+
+        /// <summary>
+        /// Converts the supplied <see cref="DataTable"/> to a CSV file.
+        /// </summary>
+        /// <param name="table">Table containing data to be converted.</param>
+        /// <returns>Byte array of the generated CSV file.</returns>
+        public async Task<byte[]> ToCsvAsync(DataTable table)
+        {
+            if (table == null)
+            {
+                throw new ArgumentNullException(nameof(table));
+            }
+
+            string Escape(string s)
+            {
+                if (s == null)
+                {
+                    return string.Empty;
+                }
+                if (s.Contains("\"") || s.Contains(",") || s.Contains("\n"))
+                {
+                    return "\"" + s.Replace("\"", "\"\"") + "\"";
+                }
+                return s;
+            }
+
+            using (var memoryStream = new MemoryStream())
+            using (var writer = new StreamWriter(memoryStream))
+            {
+                // Header
+                string header = string.Join(",", table.Columns.Cast<DataColumn>().Select(c => Escape(c.ColumnName)));
+                await writer.WriteLineAsync(header);
+
+                // Rows
+                foreach (DataRow row in table.Rows)
+                {
+                    string line = string.Join(",", row.ItemArray.Select(item => Escape(item?.ToString())));
+                    await writer.WriteLineAsync(line);
+                }
+
                 await writer.FlushAsync();
                 return memoryStream.ToArray();
             }

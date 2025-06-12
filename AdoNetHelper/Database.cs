@@ -187,6 +187,70 @@ namespace AdoNetHelper
         }
 
         /// <summary>
+        /// Executes a scalar SQL command and converts the result to the specified type.
+        /// </summary>
+        /// <typeparam name="T">Type of the return value.</typeparam>
+        /// <param name="query">SQL query text.</param>
+        /// <param name="parameters">Command parameters.</param>
+        /// <returns>Converted scalar value or default if result is null.</returns>
+        public virtual T RunScalar<T>(string query, params ParamItem[] parameters)
+        {
+            Command.Parameters.Clear();
+            Command.CommandText = query;
+            Command.CommandType = CommandType.Text;
+
+            if (parameters != null && parameters.Length > 0)
+            {
+                Command.Parameters.AddRange(ProcessParameters(parameters));
+            }
+
+            Connection.Open();
+            object result = Command.ExecuteScalar();
+            Connection.Close();
+
+            if (result == null || result == DBNull.Value)
+            {
+                return default(T);
+            }
+
+            return (T)Convert.ChangeType(result, typeof(T));
+        }
+
+        /// <summary>
+        /// Executes a scalar query asynchronously and returns the result as the specified type.
+        /// </summary>
+        /// <remarks>This method clears any existing parameters in the command before executing the query.
+        /// Ensure that the <paramref name="query"/> is a scalar query that returns a single value. The connection is
+        /// opened and closed automatically during the execution of this method.</remarks>
+        /// <typeparam name="T">The type to which the scalar result will be converted.</typeparam>
+        /// <param name="query">The SQL query to execute. Must be a valid scalar query.</param>
+        /// <param name="parameters">An optional array of <see cref="ParamItem"/> objects representing the parameters to include in the query.</param>
+        /// <returns>The result of the scalar query, converted to type <typeparamref name="T"/>.  Returns the default value of
+        /// <typeparamref name="T"/> if the query result is null or <see cref="DBNull.Value"/>.</returns>
+        public virtual async Task<T> RunScalarAsync<T>(string query, params ParamItem[] parameters)
+        {
+            Command.Parameters.Clear();
+            Command.CommandText = query;
+            Command.CommandType = CommandType.Text;
+
+            if (parameters != null && parameters.Length > 0)
+            {
+                Command.Parameters.AddRange(ProcessParameters(parameters));
+            }
+
+            await Connection.OpenAsync();
+            object result = await Command.ExecuteScalarAsync();
+            Connection.Close();
+
+            if (result == null || result == DBNull.Value)
+            {
+                return default(T);
+            }
+
+            return (T)Convert.ChangeType(result, typeof(T));
+        }
+
+        /// <summary>
         /// Creates a backup file for the specified database.
         /// </summary>
         /// <param name="databaseName">Name of the database to backup.</param>
@@ -237,6 +301,60 @@ namespace AdoNetHelper
 
             Connection.Open();
             Command.ExecuteNonQuery();
+            Connection.Close();
+        }
+
+        /// <summary>
+        /// Asynchronously creates a backup file for the specified database.
+        /// </summary>
+        /// <param name="databaseName">Name of the database to backup.</param>
+        /// <param name="filePath">Full path of the backup file.</param>
+        public virtual async Task BackupAsync(string databaseName, string filePath)
+        {
+            if (string.IsNullOrWhiteSpace(databaseName))
+            {
+                throw new ArgumentNullException(nameof(databaseName));
+            }
+
+            if (string.IsNullOrWhiteSpace(filePath))
+            {
+                throw new ArgumentNullException(nameof(filePath));
+            }
+
+            Command.Parameters.Clear();
+            Command.CommandText = $"BACKUP DATABASE [{databaseName}] TO DISK = @filePath";
+            Command.CommandType = CommandType.Text;
+            Command.Parameters.AddWithValue("@filePath", filePath);
+
+            await Connection.OpenAsync();
+            await Command.ExecuteNonQueryAsync();
+            Connection.Close();
+        }
+
+        /// <summary>
+        /// Asynchronously restores the specified database from a backup file.
+        /// </summary>
+        /// <param name="databaseName">Name of the database to restore.</param>
+        /// <param name="filePath">Path of the backup file.</param>
+        public virtual async Task RestoreAsync(string databaseName, string filePath)
+        {
+            if (string.IsNullOrWhiteSpace(databaseName))
+            {
+                throw new ArgumentNullException(nameof(databaseName));
+            }
+
+            if (string.IsNullOrWhiteSpace(filePath))
+            {
+                throw new ArgumentNullException(nameof(filePath));
+            }
+
+            Command.Parameters.Clear();
+            Command.CommandText = $"RESTORE DATABASE [{databaseName}] FROM DISK = @filePath WITH REPLACE";
+            Command.CommandType = CommandType.Text;
+            Command.Parameters.AddWithValue("@filePath", filePath);
+
+            await Connection.OpenAsync();
+            await Command.ExecuteNonQueryAsync();
             Connection.Close();
         }
 
