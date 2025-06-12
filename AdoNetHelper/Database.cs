@@ -26,6 +26,11 @@ namespace AdoNetHelper
         /// </summary>
         public SqlCommand Command { get; private set; }
 
+        /// <summary>
+        /// Gets the SQL transaction object.
+        /// </summary>
+        public SqlTransaction Transaction { get; private set; }
+
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Database"/> class using the specified connection string.
@@ -58,6 +63,64 @@ namespace AdoNetHelper
             ConnectionString = builder.ConnectionString;
             Connection = new SqlConnection(ConnectionString);
             Command = Connection.CreateCommand();
+        }
+
+        /// <summary>
+        /// Begins a SQL transaction and assigns it to the command.
+        /// </summary>
+        public void BeginTransaction()
+        {
+            if (Connection.State != ConnectionState.Open)
+            {
+                Connection.Open();
+            }
+
+            Transaction = Connection.BeginTransaction();
+            Command.Transaction = Transaction;
+        }
+
+        /// <summary>
+        /// Begins a SQL transaction asynchronously and assigns it to the command.
+        /// </summary>
+        public async Task BeginTransactionAsync()
+        {
+            if (Connection.State != ConnectionState.Open)
+            {
+                await Connection.OpenAsync();
+            }
+
+            Transaction = Connection.BeginTransaction();
+            Command.Transaction = Transaction;
+        }
+
+        /// <summary>
+        /// Commits the current SQL transaction.
+        /// </summary>
+        public void Commit()
+        {
+            if (Transaction == null)
+            {
+                throw new InvalidOperationException("Transaction has not been started.");
+            }
+
+            Transaction.Commit();
+            Transaction = null;
+            Connection.Close();
+        }
+
+        /// <summary>
+        /// Rolls back the current SQL transaction.
+        /// </summary>
+        public void Rollback()
+        {
+            if (Transaction == null)
+            {
+                throw new InvalidOperationException("Transaction has not been started.");
+            }
+
+            Transaction.Rollback();
+            Transaction = null;
+            Connection.Close();
         }
 
 

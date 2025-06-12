@@ -165,3 +165,21 @@ await DB.CloneTableStructureAsync("Books", "BooksCopy");
 // Yapı ve verilerle beraber kopya oluşturma
 await DB.CloneTableWithDataAsync("Books", "BooksCopyWithData");
 ```
+
+### Transaction kullanımı (Henüz Test Edilmedi !!)
+```c#
+// Transaction başlatma
+await DB.BeginTransactionAsync();
+try
+{
+    DB.RunQuery("UPDATE Books SET Price = Price + 1");
+    DB.RunQuery("INSERT INTO Logs(Message) VALUES(@msg)",
+        new ParamItem() { ParamName = "@msg", ParamValue = "Prices updated" });
+    DB.Commit();
+}
+catch
+{
+    DB.Rollback();
+    throw;
+}
+```
