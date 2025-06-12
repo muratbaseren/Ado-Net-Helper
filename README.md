@@ -166,7 +166,7 @@ await DB.CloneTableStructureAsync("Books", "BooksCopy");
 await DB.CloneTableWithDataAsync("Books", "BooksCopyWithData");
 ```
 
-### Transaction kullanımı
+### Transaction kullanımı (Henüz Test Edilmedi !!)
 ```c#
 // Transaction başlatma
 await DB.BeginTransactionAsync();
