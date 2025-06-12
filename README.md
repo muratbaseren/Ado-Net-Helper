@@ -47,6 +47,9 @@ Debug.WriteLine("Result table row count(RunQuery - GetTable) : " + dt.Rows.Count
 ```c#
 // Execute scalar query and convert result
 int bookCount = DB.RunScalar<int>("SELECT COUNT(*) FROM Books");
+
+// Execute scalar query async and convert result
+int bookCount = await DB.RunScalarAsync<int>("SELECT COUNT(*) FROM Books");
 ```
 
 ### How to use RunProc method
