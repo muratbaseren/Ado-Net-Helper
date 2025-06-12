@@ -21,5 +21,12 @@ namespace AdoNetHelper.Abstract
         /// <param name="table">Table containing data to be converted.</param>
         /// <returns>Byte array of the generated HTML file.</returns>
         Task<byte[]> ToHtmlAsync(DataTable table);
+
+        /// <summary>
+        /// Converts the supplied <see cref="DataTable"/> to a CSV file.
+        /// </summary>
+        /// <param name="table">Table containing data to be converted.</param>
+        /// <returns>Byte array of the generated CSV file.</returns>
+        Task<byte[]> ToCsvAsync(DataTable table);
     }
 }
