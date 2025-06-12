@@ -217,6 +217,40 @@ namespace AdoNetHelper
         }
 
         /// <summary>
+        /// Executes a scalar query asynchronously and returns the result as the specified type.
+        /// </summary>
+        /// <remarks>This method clears any existing parameters in the command before executing the query.
+        /// Ensure that the <paramref name="query"/> is a scalar query that returns a single value. The connection is
+        /// opened and closed automatically during the execution of this method.</remarks>
+        /// <typeparam name="T">The type to which the scalar result will be converted.</typeparam>
+        /// <param name="query">The SQL query to execute. Must be a valid scalar query.</param>
+        /// <param name="parameters">An optional array of <see cref="ParamItem"/> objects representing the parameters to include in the query.</param>
+        /// <returns>The result of the scalar query, converted to type <typeparamref name="T"/>.  Returns the default value of
+        /// <typeparamref name="T"/> if the query result is null or <see cref="DBNull.Value"/>.</returns>
+        public virtual async Task<T> RunScalarAsync<T>(string query, params ParamItem[] parameters)
+        {
+            Command.Parameters.Clear();
+            Command.CommandText = query;
+            Command.CommandType = CommandType.Text;
+
+            if (parameters != null && parameters.Length > 0)
+            {
+                Command.Parameters.AddRange(ProcessParameters(parameters));
+            }
+
+            await Connection.OpenAsync();
+            object result = await Command.ExecuteScalarAsync();
+            Connection.Close();
+
+            if (result == null || result == DBNull.Value)
+            {
+                return default(T);
+            }
+
+            return (T)Convert.ChangeType(result, typeof(T));
+        }
+
+        /// <summary>
         /// Creates a backup file for the specified database.
         /// </summary>
         /// <param name="databaseName">Name of the database to backup.</param>
