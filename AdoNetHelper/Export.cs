@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using AdoNetHelper.Abstract;
+using System.Linq;
 
 namespace AdoNetHelper
 {
