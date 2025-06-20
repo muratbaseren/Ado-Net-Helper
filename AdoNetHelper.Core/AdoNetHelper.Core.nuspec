@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>KmbAdoHelper.Core</id>
+    <version>$version$</version>
+    <authors>Kadir Murat Başeren</authors>
+    <title>ADO.NET Helper Core</title>
+    <owners>Kadir Murat Başeren</owners>
+    <projectUrl>https://github.com/muratbaseren/Ado-Net-Helper</projectUrl>
+    <iconUrl>https://muratbaseren.files.wordpress.com/2017/10/nuget-kmb-ado-net-helper-icon.png</iconUrl>
+    <description>This package includes dynamic link library(dll) for ado.net operations on your project. It provides executing query, get table data and executing stored procedure query.</description>
+    <summary>This package includes dynamic link library(dll) for ado.net operations on your project. It provides executing query, get table data and executing stored procedure query..</summary>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+	<license type="expression">GPL-3.0-only</license>
+    <tags>adonet,helper,execute query,execute stored procedure,mssql</tags>
+    <copyright>Copyright Kadir Murat Başeren</copyright>
+	<readme>README.md</readme>
+	<dependencies>
+	    <group targetFramework="net9.0">
+		    <dependency id="Microsoft.Data.SqlClient" version="6.0.2" />
+		    <dependency id="itext7" version="9.2.0" />
+	    </group>
+	</dependencies>
+  </metadata>
+  <files>
+    <file src="bin\Release\net9.0\*.dll" target="lib\net9.0\" />
+	<file src="..\README.md" target="\" />
+  </files>
+</package>
+
