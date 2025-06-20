@@ -3,9 +3,11 @@ SQL Sorgularını çalıştırabileceğiniz ve sonuçlarını listeleyebileceği
 
 [Sample Project(örnek proje)](https://github.com/kadirmuratbaseren/Using-Ado-Net-Helper)
 
-| Build server| Platform       | Status      |
-|-------------|----------------|-------------|
-| AppVeyor    | Windows        |[![Build status](https://ci.appveyor.com/api/projects/status/aw4iajsf45eyl6g0/branch/master?svg=true)](https://ci.appveyor.com/project/muratbaseren/ado-net-helper/branch/master) |
+| Build server| Name             | Framework           | Status      |
+|-------------|------------------|---------------------|-------------|
+| AppVeyor    | AdoNetHelper     | NET Framework 4.8.1 |[![Build status](https://ci.appveyor.com/api/projects/status/aw4iajsf45eyl6g0/branch/master?svg=true)](https://ci.appveyor.com/project/muratbaseren/ado-net-helper/branch/master) |
+| AppVeyor    | AdoNetHelperCore | NET 9               |[![Build status](https://ci.appveyor.com/api/projects/status/59cnbwtkm8i9aw30/branch/master?svg=true)](https://ci.appveyor.com/project/muratbaseren/ado-net-helper-core/branch/master)
+ |
 
 ## Code-Samples
 
