@@ -6,7 +6,7 @@
     <authors>Kadir Murat Başeren</authors>
     <title>ADO.NET Helper</title>
     <owners>Kadir Murat Başeren</owners>
-    <projectUrl>https://github.com/muratbaseren/Ado-Net-Helper</projectUrl>
+    <projectUrl>https://github.com/muratbaseren/Ado-Net-Helper/tree/master/AdoNetHelper</projectUrl>
     <iconUrl>https://muratbaseren.files.wordpress.com/2017/10/nuget-kmb-ado-net-helper-icon.png</iconUrl>
     <description>This package includes dynamic link library(dll) for ado.net operations on your project. It provides executing query, get table data and executing stored procedure query.</description>
     <summary>This package includes dynamic link library(dll) for ado.net operations on your project. It provides executing query, get table data and executing stored procedure query..</summary>
